@@ -3,10 +3,10 @@ import { ContactForm } from "../components/ContactForm";
 
 export const ContactPage = (): JSX.Element => {
   return (
-    <Box sx={{ py: { xs: 9, md: 12 } }}>
+    <Box sx={{ py: { xs: 7.5, sm: 8.5, md: 12 } }}>
       <Container maxWidth="md">
         <Stack spacing={{ xs: 4.5, md: 5.5 }}>
-          <Stack spacing={1.75} maxWidth={620} mx="auto" textAlign="center">
+          <Stack spacing={{ xs: 1.5, md: 1.75 }} maxWidth={620} mx="auto" textAlign="center">
             <Typography
               variant="overline"
               sx={{ color: "text.secondary", letterSpacing: "0.12em" }}
@@ -21,7 +21,11 @@ export const ContactPage = (): JSX.Element => {
               particular concerns, and you will receive a clear response on
               scope, timing, and the level of editing that best suits the work.
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ overflowWrap: "anywhere" }}
+            >
               Or email directly at{" "}
               <Link
                 href="mailto:garethareeves@hotmail.com"

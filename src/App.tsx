@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
-import { Box, Fab, Zoom } from "@mui/material";
+import { Box, Fab, Link, Typography, Zoom } from "@mui/material";
 import { Header } from "./components/Header";
 import { AboutPage } from "./pages/AboutPage";
 import { ContactPage } from "./pages/ContactPage";
@@ -114,13 +114,40 @@ const App = (): JSX.Element => {
   };
 
   return (
-    <Box sx={{ minHeight: "100vh" }}>
+    <Box sx={{ minHeight: "100vh", overflowX: "clip" }}>
       <Header
         currentPage={currentPage}
         onNavigate={handleNavigate}
         onRequestQuote={handleRequestQuote}
       />
       {renderPage()}
+      <Box
+        component="footer"
+        sx={{
+          mt: { xs: 8, md: 10 },
+          px: { xs: 2.5, md: 3 },
+          pb: { xs: 3, md: 4 },
+        }}
+      >
+        <Typography
+          variant="caption"
+          color="text.secondary"
+          sx={{
+            display: "block",
+            textAlign: "center",
+            opacity: 0.76,
+          }}
+        >
+          Site by{" "}
+          <Link
+            href="mailto:richard@hanney.xyz"
+            color="inherit"
+            underline="hover"
+          >
+            Richard Hanney
+          </Link>
+        </Typography>
+      </Box>
       <ScrollTopButton />
     </Box>
   );

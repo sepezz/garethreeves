@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import type { PageKey } from "../App";
 import { CiepMembershipPanel } from "../components/CiepMembershipPanel";
+import { ContentPanel } from "../components/ContentPanel";
 import { ContactForm } from "../components/ContactForm";
 import { Section } from "../components/Section";
 
@@ -70,8 +71,8 @@ export const HomePage = ({
         <Container maxWidth="lg">
           <Grid
             container
-            spacing={{ xs: 6, md: 7 }}
-            sx={{ py: { xs: 10, md: 15 }, alignItems: "center" }}
+            spacing={{ xs: 4, sm: 5, md: 7 }}
+            sx={{ py: { xs: 8, sm: 9, md: 15 }, alignItems: "center" }}
           >
             <Grid item xs={12} md={7}>
               <Stack spacing={{ xs: 3.5, md: 4 }}>
@@ -94,12 +95,21 @@ export const HomePage = ({
                   reports, and specialist writing. Every edit is attentive to
                   tone, clarity, structure, and scholarly precision.
                 </Typography>
-                <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+                <Stack
+                  direction={{ xs: "column", sm: "row" }}
+                  spacing={{ xs: 0.75, sm: 1, md: 1.25 }}
+                  sx={{ alignItems: { xs: "center", sm: "center" } }}
+                >
                   <Button
                     variant="outlined"
                     color="primary"
                     endIcon={<SouthRounded />}
                     onClick={onRequestQuote}
+                    fullWidth
+                    sx={{
+                      width: { xs: "100%", sm: "auto" },
+                      pr: { sm: 2.25 },
+                    }}
                   >
                     Request a Quote
                   </Button>
@@ -108,7 +118,14 @@ export const HomePage = ({
                     color="inherit"
                     onClick={() => onNavigate("about")}
                     endIcon={<ArrowOutwardRounded />}
-                    sx={{ color: "text.secondary" }}
+                    sx={{
+                      color: "text.secondary",
+                      justifyContent: { xs: "flex-start", sm: "center" },
+                      minWidth: "auto",
+                      px: { xs: 0, sm: 1 },
+                      mt: { xs: 0, sm: 0 },
+                      textAlign: "center",
+                    }}
                   >
                     Learn more
                   </Button>
@@ -120,18 +137,24 @@ export const HomePage = ({
               <Paper
                 elevation={0}
                 sx={{
-                  p: { xs: 3, md: 4.5 },
+                  p: { xs: 2.25, sm: 2.75, md: 3.5 },
                   border: "1px solid",
                   borderColor: "divider",
                   backgroundColor: "background.paper",
-                  borderRadius: 4,
+                  borderRadius: { xs: 2.25, sm: 3, md: 3 },
+                  maxWidth: { xs: 420, md: 360 },
+                  mx: { xs: "auto", md: "auto" },
                 }}
               >
-                <Stack spacing={3.5}>
+                <Stack spacing={{ xs: 2, md: 2.75 }}>
                   <Typography variant="overline" sx={{ color: "text.secondary" }}>
                     How the work is handled
                   </Typography>
-                  <Typography variant="h3" color="text.primary" sx={{ maxWidth: 280 }}>
+                  <Typography
+                    variant="h3"
+                    color="text.primary"
+                    sx={{ maxWidth: { xs: "none", md: 250 } }}
+                  >
                     Editorial support shaped around submission-ready writing
                   </Typography>
                   <Stack spacing={1.75}>
@@ -159,7 +182,19 @@ export const HomePage = ({
         title="Editing at the level your draft requires."
         description="Support ranges from a final polish to more substantial editorial work, always with an emphasis on accuracy, readability, and an appropriate academic register."
       >
-        <Grid container spacing={3}>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "1fr",
+              sm: "repeat(2, minmax(0, 1fr))",
+              lg: "repeat(3, minmax(0, 1fr))",
+            },
+            gap: { xs: 2.5, sm: 2.75, lg: 3.25 },
+            maxWidth: 900,
+            mx: "auto",
+          }}
+        >
           {[
             {
               title: "Proofreading",
@@ -174,27 +209,23 @@ export const HomePage = ({
               text: "Broader editorial input on structure, argument, coherence, and the presentation of complex material.",
             },
           ].map((service) => (
-            <Grid item xs={12} md={4} key={service.title}>
-              <Paper
-                elevation={0}
-                sx={{
-                  height: "100%",
-                  p: 3,
-                  border: "1px solid",
-                  borderColor: "divider",
-                  backgroundColor: "background.paper",
-                }}
-              >
-                <Stack spacing={1.5}>
-                  <Typography variant="h3">{service.title}</Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {service.text}
-                  </Typography>
-                </Stack>
-              </Paper>
-            </Grid>
+            <ContentPanel
+              key={service.title}
+              sx={{
+                maxWidth: { lg: 286 },
+                width: "100%",
+                justifySelf: "center",
+              }}
+            >
+              <Stack spacing={1.5}>
+                <Typography variant="h3">{service.title}</Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {service.text}
+                </Typography>
+              </Stack>
+            </ContentPanel>
           ))}
-        </Grid>
+        </Box>
       </Section>
 
       <Section
@@ -225,30 +256,38 @@ export const HomePage = ({
         title="Clear editorial work, delivered in a practical format."
         description="Edits are made directly in your document with Track Changes and concise comments, so you can review every intervention with confidence."
       >
-        <Grid container spacing={3}>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "1fr",
+              sm: "repeat(2, minmax(0, 1fr))",
+              lg: "repeat(3, minmax(0, 1fr))",
+            },
+            gap: { xs: 2.5, sm: 2.75, lg: 3.25 },
+            maxWidth: 900,
+            mx: "auto",
+          }}
+        >
           {[
             "Works in Microsoft Word using Track Changes and comments",
             "Provides feedback that is direct, readable, and proportionate to the brief",
             "Returns an edited document and, where useful, an accompanying style sheet",
           ].map((item) => (
-            <Grid item xs={12} md={4} key={item}>
-              <Paper
-                elevation={0}
-                sx={{
-                  p: 3,
-                  height: "100%",
-                  border: "1px solid",
-                  borderColor: "divider",
-                  backgroundColor: "background.paper",
-                }}
-              >
-                <Typography variant="body1" color="text.secondary">
-                  {item}
-                </Typography>
-              </Paper>
-            </Grid>
+            <ContentPanel
+              key={item}
+              sx={{
+                maxWidth: { lg: 286 },
+                width: "100%",
+                justifySelf: "center",
+              }}
+            >
+              <Typography variant="body1" color="text.secondary">
+                {item}
+              </Typography>
+            </ContentPanel>
           ))}
-        </Grid>
+        </Box>
       </Section>
 
       <Section
@@ -256,8 +295,8 @@ export const HomePage = ({
         eyebrow="Credentials"
         title="Academic depth paired with long publishing experience."
       >
-        <Box>
-          <Grid container spacing={2}>
+        <Box sx={{ maxWidth: 900, mx: "auto" }}>
+          <Grid container spacing={{ xs: 2, md: 2 }}>
             {[
               "PhD in English Literature",
               "20 years in publishing",
@@ -283,7 +322,7 @@ export const HomePage = ({
             ))}
           </Grid>
 
-          <Box sx={{ mt: 4 }}>
+          <Box sx={{ mt: { xs: 3.5, md: 4 } }}>
             <CiepMembershipPanel />
           </Box>
         </Box>
@@ -294,24 +333,32 @@ export const HomePage = ({
         eyebrow="Testimonial"
         title="Trusted by clients who need reliable, thoughtful editorial work."
       >
-        <Paper
-          elevation={0}
+        <Box
           sx={{
-            p: { xs: 3, md: 4 },
-            border: "1px solid",
-            borderColor: "divider",
-            backgroundColor: "background.paper",
+            maxWidth: { xs: "100%", md: 620 },
+            mx: { xs: 0, md: "auto" },
           }}
         >
-          <Stack spacing={2}>
-            <Typography variant="h3" sx={{ fontSize: "1.55rem" }}>
-              “truly reliable”
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Helena S (University of Cambridge)
-            </Typography>
-          </Stack>
-        </Paper>
+          <ContentPanel
+            sx={{
+              px: { xs: 2.75, sm: 3.25, md: 3.75 },
+              py: { xs: 3, md: 3.5 },
+              borderRadius: { xs: 2.25, sm: 3, md: 3 },
+            }}
+          >
+            <Stack spacing={1.5} maxWidth={430}>
+              <Typography
+                variant="h3"
+                sx={{ fontSize: "1.55rem", lineHeight: 1.45 }}
+              >
+                “truly reliable”
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Helena S (University of Cambridge)
+              </Typography>
+            </Stack>
+          </ContentPanel>
+        </Box>
       </Section>
 
       <Section
@@ -320,39 +367,57 @@ export const HomePage = ({
         title="Selected examples of editorial work."
         description="Selected work can be presented by publication type, project scale, and subject area."
       >
-        <Grid container spacing={3}>
+        <Box
+          sx={{
+            mt: { xs: 0, md: -0.5 },
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "1fr",
+              sm: "repeat(2, minmax(0, 1fr))",
+              lg: "repeat(3, minmax(0, 1fr))",
+            },
+            gap: { xs: 2.5, sm: 2.75, lg: 3 },
+            maxWidth: 870,
+            mx: "auto",
+          }}
+        >
           {portfolioGroups.map((group) => (
-            <Grid item xs={12} md={4} key={group.title}>
-              <Paper
-                elevation={0}
-                sx={{
-                  p: 3,
-                  height: "100%",
-                  border: "1px solid",
-                  borderColor: "divider",
-                  backgroundColor: "background.paper",
-                }}
-              >
-                <Stack spacing={2}>
-                  <Typography variant="h3">{group.title}</Typography>
-                  <Stack spacing={1.2}>
-                    {group.items.map((item) => (
-                      <Link
-                        key={item}
-                        href="#"
-                        underline="hover"
-                        color="text.secondary"
-                        sx={{ width: "fit-content" }}
-                      >
-                        {item}
-                      </Link>
-                    ))}
-                  </Stack>
+            <ContentPanel
+              key={group.title}
+              sx={{
+                maxWidth: { lg: 276 },
+                width: "100%",
+                justifySelf: "center",
+              }}
+            >
+              <Stack spacing={1.75}>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    lineHeight: 1.3,
+                    minHeight: { lg: 48 },
+                    maxWidth: group.title === "Journal Articles and Reviews" ? 220 : "none",
+                  }}
+                >
+                  {group.title}
+                </Typography>
+                <Stack spacing={1.1}>
+                  {group.items.map((item) => (
+                    <Link
+                      key={item}
+                      href="#"
+                      underline="hover"
+                      color="text.secondary"
+                      sx={{ width: "fit-content" }}
+                    >
+                      {item}
+                    </Link>
+                  ))}
                 </Stack>
-              </Paper>
-            </Grid>
+              </Stack>
+            </ContentPanel>
           ))}
-        </Grid>
+        </Box>
       </Section>
 
       <Section

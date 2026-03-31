@@ -23,12 +23,12 @@ export const Section = ({
       component="section"
       id={id}
       sx={{
-        py: { xs: 9, md: 13 },
+        py: { xs: 7.5, sm: 8.5, md: 13 },
       }}
     >
       <Container maxWidth="lg">
         <Stack spacing={{ xs: 4.5, md: 5.5 }}>
-          <Stack spacing={1.5} maxWidth={780}>
+          <Stack spacing={{ xs: 1.25, md: 1.5 }} maxWidth={780}>
             {eyebrow ? (
               <Typography
                 variant="overline"

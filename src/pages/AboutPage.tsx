@@ -2,19 +2,19 @@ import { Box, Container, Paper, Stack, Typography } from "@mui/material";
 
 export const AboutPage = (): JSX.Element => {
   return (
-    <Box sx={{ py: { xs: 9, md: 12 } }}>
+    <Box sx={{ py: { xs: 7.5, sm: 8.5, md: 12 } }}>
       <Container maxWidth="md">
         <Paper
           elevation={0}
           sx={{
-            p: { xs: 3, md: 6 },
+            p: { xs: 2.25, sm: 3, md: 6 },
             border: "1px solid",
             borderColor: "divider",
             backgroundColor: "background.paper",
-            borderRadius: 4,
+            borderRadius: { xs: 2.25, sm: 3, md: 4 },
           }}
         >
-          <Stack spacing={3.5} maxWidth={640}>
+          <Stack spacing={{ xs: 3, md: 3.5 }} maxWidth={640}>
             <Typography
               variant="overline"
               sx={{ color: "text.secondary", letterSpacing: "0.12em" }}

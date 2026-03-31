@@ -1,4 +1,5 @@
 import { useState } from "react";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import {
   AppBar,
@@ -72,8 +73,8 @@ export const Header = ({
         <Toolbar
           disableGutters
           sx={{
-            minHeight: 76,
-            gap: { xs: 1.5, md: 3 },
+            minHeight: { xs: 72, md: 76 },
+            gap: { xs: 1, md: 3 },
             justifyContent: "space-between",
           }}
         >
@@ -85,8 +86,11 @@ export const Header = ({
               fontWeight: 500,
               letterSpacing: "-0.03em",
               flexShrink: 0,
-              pr: { xs: 1, md: 0 },
+              pr: { xs: 0.5, md: 0 },
               cursor: "pointer",
+              fontSize: { xs: "1rem", sm: "1.1rem" },
+              lineHeight: 1.15,
+              maxWidth: { xs: "calc(100vw - 92px)", sm: "none" },
             }}
           >
             Gareth Reeves Editorial
@@ -127,7 +131,7 @@ export const Header = ({
 
           <IconButton
             onClick={handleToggle}
-            sx={{ display: { xs: "inline-flex", md: "none" }, ml: 1 }}
+            sx={{ display: { xs: "inline-flex", md: "none" }, ml: 0.5, flexShrink: 0 }}
             aria-label="Open navigation"
           >
             <MenuRoundedIcon />
@@ -141,12 +145,25 @@ export const Header = ({
         onClose={handleClose}
         PaperProps={{
           sx: {
-            width: 280,
+            width: { xs: "min(280px, 86vw)", sm: 280 },
             backgroundColor: "background.paper",
           },
         }}
       >
-        <Box sx={{ px: 2, pt: 10 }}>
+        <Box
+          sx={{
+            px: 2,
+            pt: 2,
+            pb: 1,
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
+          <IconButton onClick={handleClose} aria-label="Close navigation menu">
+            <CloseRoundedIcon />
+          </IconButton>
+        </Box>
+        <Box sx={{ px: 2, pb: 2 }}>
           <List>
             {navItems.map((item) => (
               <ListItemButton

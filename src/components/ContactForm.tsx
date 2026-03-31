@@ -67,12 +67,13 @@ export const ContactForm = (): JSX.Element => {
       sx={{
         maxWidth: 680,
         mx: "auto",
-        px: { xs: 2.5, md: 4.5 },
-        py: { xs: 3, md: 4.5 },
+        px: { xs: 2, sm: 2.5, md: 4.5 },
+        py: { xs: 2.5, sm: 3, md: 4.5 },
         border: "1px solid",
         borderColor: "divider",
         backgroundColor: "background.paper",
-        borderRadius: 4,
+        borderRadius: { xs: 2.25, sm: 3, md: 4 },
+        overflow: "hidden",
       }}
     >
       <Stack spacing={{ xs: 3, md: 3.5 }}>
@@ -114,13 +115,17 @@ export const ContactForm = (): JSX.Element => {
               onChange={handleChange("wordCount")}
               helperText="Approximate is fine."
             />
-            <TextField
-              label="Deadline"
-              type="date"
-              value={formState.deadline}
-              onChange={handleChange("deadline")}
-              InputLabelProps={{ shrink: true }}
-            />
+            <Stack spacing={1}>
+              <Typography variant="body2" color="text.secondary">
+                Deadline
+              </Typography>
+              <TextField
+                type="date"
+                value={formState.deadline}
+                onChange={handleChange("deadline")}
+                inputProps={{ "aria-label": "Deadline" }}
+              />
+            </Stack>
             <TextField
               label="Message"
               value={formState.message}
@@ -134,6 +139,7 @@ export const ContactForm = (): JSX.Element => {
               direction={{ xs: "column", sm: "row" }}
               spacing={1.5}
               alignItems={{ xs: "flex-start", sm: "center" }}
+              sx={{ minWidth: 0 }}
             >
               <Button variant="outlined" component="label">
                 Upload sample
@@ -144,7 +150,11 @@ export const ContactForm = (): JSX.Element => {
                   accept=".doc,.docx,.pdf,.txt"
                 />
               </Button>
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ minWidth: 0, overflowWrap: "anywhere" }}
+              >
                 {formState.sampleFileName ||
                   "Accepted formats: DOC, DOCX, PDF, or TXT"}
               </Typography>

@@ -22,14 +22,14 @@ export const theme = createTheme({
   typography: {
     fontFamily: '"Helvetica Neue", "Arial", sans-serif',
     h1: {
-      fontSize: "clamp(2.8rem, 7vw, 4.6rem)",
-      lineHeight: 1.08,
+      fontSize: "clamp(2.35rem, 7vw, 4.6rem)",
+      lineHeight: 1.1,
       letterSpacing: "-0.03em",
       fontWeight: 500,
     },
     h2: {
-      fontSize: "clamp(1.8rem, 3vw, 2.3rem)",
-      lineHeight: 1.2,
+      fontSize: "clamp(1.65rem, 3vw, 2.3rem)",
+      lineHeight: 1.22,
       letterSpacing: "-0.02em",
       fontWeight: 500,
     },
@@ -60,6 +60,12 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           maxWidth: "1100px",
+          paddingLeft: 20,
+          paddingRight: 20,
+          "@media (min-width:600px)": {
+            paddingLeft: 24,
+            paddingRight: 24,
+          },
         },
       },
     },
@@ -72,6 +78,7 @@ export const theme = createTheme({
           borderRadius: 999,
           paddingInline: 20,
           minHeight: 44,
+          whiteSpace: "normal",
         },
         outlined: {
           borderColor: "#cfc8bc",
