@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
-import { Box, Fab, Link, Typography, Zoom } from "@mui/material";
+import { Box, Fab, Link, Tooltip, Typography, Zoom } from "@mui/material";
 import { Header } from "./components/Header";
 import { AboutPage } from "./pages/AboutPage";
 import { ContactPage } from "./pages/ContactPage";
@@ -139,13 +139,15 @@ const App = (): JSX.Element => {
           }}
         >
           Site by{" "}
-          <Link
-            href="mailto:richard@hanney.xyz"
-            color="inherit"
-            underline="hover"
-          >
-            Richard Hanney
-          </Link>
+          <Tooltip title="Email richard@hanney.xyz" arrow>
+            <Link
+              href="mailto:richard@hanney.xyz"
+              color="inherit"
+              underline="hover"
+            >
+              Richard Hanney
+            </Link>
+          </Tooltip>
         </Typography>
       </Box>
       <ScrollTopButton />

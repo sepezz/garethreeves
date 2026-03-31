@@ -83,14 +83,17 @@ export const Header = ({
             onClick={handleBrandClick}
             sx={{
               color: "text.primary",
-              fontWeight: 500,
+              fontWeight: 600,
               letterSpacing: "-0.03em",
               flexShrink: 0,
-              pr: { xs: 0.5, md: 0 },
+              pr: { xs: 1, md: 0 },
               cursor: "pointer",
-              fontSize: { xs: "1rem", sm: "1.1rem" },
-              lineHeight: 1.15,
-              maxWidth: { xs: "calc(100vw - 92px)", sm: "none" },
+              fontSize: { xs: "1.2rem", sm: "1.3rem", md: "1.2rem", lg: "1.25rem" },
+              lineHeight: 1.1,
+              maxWidth: { xs: "calc(100vw - 96px)", sm: "calc(100vw - 112px)", md: "none" },
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
             }}
           >
             Gareth Reeves Editorial

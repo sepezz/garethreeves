@@ -1,4 +1,5 @@
-import { Box, Container, Link, Stack, Typography } from "@mui/material";
+import { Box, Container, Link, Stack, Tooltip, Typography } from "@mui/material";
+import { CONTACT_EMAIL } from "../constants/site";
 import { ContactForm } from "../components/ContactForm";
 
 export const ContactPage = (): JSX.Element => {
@@ -27,13 +28,15 @@ export const ContactPage = (): JSX.Element => {
               sx={{ overflowWrap: "anywhere" }}
             >
               Or email directly at{" "}
-              <Link
-                href="mailto:garethareeves@hotmail.com"
-                color="text.primary"
-                underline="hover"
-              >
-                garethareeves@hotmail.com
-              </Link>
+              <Tooltip title={`Email ${CONTACT_EMAIL}`} arrow>
+                <Link
+                  href={`mailto:${CONTACT_EMAIL}`}
+                  color="text.primary"
+                  underline="hover"
+                >
+                  {CONTACT_EMAIL}
+                </Link>
+              </Tooltip>
             </Typography>
           </Stack>
           <ContactForm />

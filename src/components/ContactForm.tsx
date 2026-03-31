@@ -4,11 +4,14 @@ import {
   Box,
   Button,
   Divider,
+  Link,
   Paper,
   Stack,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
+import { CONTACT_EMAIL } from "../constants/site";
 
 type FormState = {
   name: string;
@@ -16,7 +19,6 @@ type FormState = {
   wordCount: string;
   deadline: string;
   message: string;
-  sampleFileName: string;
 };
 
 const initialState: FormState = {
@@ -25,40 +27,69 @@ const initialState: FormState = {
   wordCount: "",
   deadline: "",
   message: "",
-  sampleFileName: "",
 };
 
 export const ContactForm = (): JSX.Element => {
   const [formState, setFormState] = useState<FormState>(initialState);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleChange =
-    (field: Exclude<keyof FormState, "sampleFileName">) =>
+    (field: keyof FormState) =>
     (
       event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     ): void => {
       setSubmitted(false);
+      setErrorMessage(null);
       setFormState((current) => ({
         ...current,
         [field]: event.target.value,
       }));
     };
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    const file = event.target.files?.[0];
-
-    setSubmitted(false);
-    setFormState((current) => ({
-      ...current,
-      sampleFileName: file?.name ?? "",
-    }));
+  const encodeFormData = (data: Record<string, string>): string => {
+    return Object.entries(data)
+      .map(
+        ([key, value]) =>
+          `${encodeURIComponent(key)}=${encodeURIComponent(value)}`,
+      )
+      .join("&");
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
-    setSubmitted(true);
-    console.log("Quote request submitted", formState);
-    setFormState(initialState);
+    setIsSubmitting(true);
+    setSubmitted(false);
+    setErrorMessage(null);
+
+    try {
+      const response = await fetch("/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: encodeFormData({
+          "form-name": "contact",
+          "bot-field": "",
+          ...formState,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Form submission failed");
+      }
+
+      setSubmitted(true);
+      setFormState(initialState);
+    } catch (error) {
+      console.error(error);
+      setErrorMessage(
+        `Something went wrong. Please try again or email ${CONTACT_EMAIL}.`,
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -82,28 +113,76 @@ export const ContactForm = (): JSX.Element => {
             Please include a 500-word sample from the middle of your work.
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mt: 0.8 }}>
-            You can also email directly at garethareeves@hotmail.com
+            You can also email directly at{" "}
+            <Tooltip title={`Email ${CONTACT_EMAIL}`} arrow>
+              <Link
+                href={`mailto:${CONTACT_EMAIL}`}
+                color="text.primary"
+                underline="hover"
+              >
+                {CONTACT_EMAIL}
+              </Link>
+            </Tooltip>
           </Typography>
         </Box>
 
         <Divider />
 
         {submitted ? (
-          <Alert severity="success" sx={{ borderRadius: 3 }}>
-            Thank you. Your enquiry has been received.
+          <Alert
+            severity="success"
+            sx={{
+              borderRadius: 3,
+              backgroundColor: "rgba(92, 104, 98, 0.08)",
+              color: "text.primary",
+              "& .MuiAlert-icon": {
+                color: "primary.main",
+              },
+            }}
+          >
+            Thanks - your enquiry has been sent successfully. Gareth will get
+            back to you soon.
           </Alert>
         ) : null}
 
-        <Box component="form" onSubmit={handleSubmit}>
+        {errorMessage ? (
+          <Alert
+            severity="error"
+            sx={{
+              borderRadius: 3,
+              backgroundColor: "rgba(138, 131, 118, 0.1)",
+              color: "text.primary",
+              "& .MuiAlert-icon": {
+                color: "secondary.main",
+              },
+            }}
+          >
+            {errorMessage}
+          </Alert>
+        ) : null}
+
+        <Box
+          component="form"
+          name="contact"
+          method="POST"
+          data-netlify="true"
+          data-netlify-honeypot="bot-field"
+          onSubmit={handleSubmit}
+        >
+          <input type="hidden" name="form-name" value="contact" />
+          <input type="hidden" name="bot-field" />
+
           <Stack spacing={{ xs: 2.25, md: 2.75 }}>
             <TextField
               label="Name"
+              name="name"
               value={formState.name}
               onChange={handleChange("name")}
               required
             />
             <TextField
               label="Email"
+              name="email"
               type="email"
               value={formState.email}
               onChange={handleChange("email")}
@@ -111,6 +190,7 @@ export const ContactForm = (): JSX.Element => {
             />
             <TextField
               label="Word count"
+              name="wordCount"
               value={formState.wordCount}
               onChange={handleChange("wordCount")}
               helperText="Approximate is fine."
@@ -120,6 +200,7 @@ export const ContactForm = (): JSX.Element => {
                 Deadline
               </Typography>
               <TextField
+                name="deadline"
                 type="date"
                 value={formState.deadline}
                 onChange={handleChange("deadline")}
@@ -128,6 +209,7 @@ export const ContactForm = (): JSX.Element => {
             </Stack>
             <TextField
               label="Message"
+              name="message"
               value={formState.message}
               onChange={handleChange("message")}
               multiline
@@ -135,36 +217,24 @@ export const ContactForm = (): JSX.Element => {
               required
             />
 
-            <Stack
-              direction={{ xs: "column", sm: "row" }}
-              spacing={1.5}
-              alignItems={{ xs: "flex-start", sm: "center" }}
-              sx={{ minWidth: 0 }}
-            >
-              <Button variant="outlined" component="label">
-                Upload sample
-                <input
-                  hidden
-                  type="file"
-                  onChange={handleFileChange}
-                  accept=".doc,.docx,.pdf,.txt"
-                />
-              </Button>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{ minWidth: 0, overflowWrap: "anywhere" }}
-              >
-                {formState.sampleFileName ||
-                  "Accepted formats: DOC, DOCX, PDF, or TXT"}
-              </Typography>
-            </Stack>
-
             <Box>
-              <Button type="submit" variant="contained">
-                Send Enquiry
+              <Button type="submit" variant="contained" disabled={isSubmitting}>
+                {isSubmitting ? "Sending..." : "Send Enquiry"}
               </Button>
             </Box>
+
+            <Typography variant="body2" color="text.secondary">
+              Prefer email? Contact{" "}
+              <Tooltip title={`Email ${CONTACT_EMAIL}`} arrow>
+                <Link
+                  href={`mailto:${CONTACT_EMAIL}`}
+                  color="text.primary"
+                  underline="hover"
+                >
+                  {CONTACT_EMAIL}
+                </Link>
+              </Tooltip>
+            </Typography>
           </Stack>
         </Box>
       </Stack>
