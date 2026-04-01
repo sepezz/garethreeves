@@ -5,16 +5,19 @@ export const CiepMembershipPanel = (): JSX.Element => {
   return (
     <Paper
       variant="outlined"
-      sx={{
+      sx={(theme) => ({
         borderRadius: { xs: 2.25, sm: 3, md: 4 },
         p: { xs: 2.25, sm: 3, md: 4.5 },
         display: "flex",
         alignItems: "center",
         gap: { xs: 1.75, sm: 2.5, md: 4 },
         flexDirection: { xs: "column", sm: "row" },
-        backgroundColor: "rgba(255, 253, 249, 0.96)",
-        borderColor: "#d4cdc0",
-      }}
+        backgroundColor:
+          theme.palette.mode === "light"
+            ? "rgba(255, 253, 249, 0.96)"
+            : "rgba(31, 38, 35, 0.92)",
+        borderColor: theme.palette.mode === "light" ? "#d4cdc0" : "#46504b",
+      })}
     >
       <Box
         component="img"

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
+import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import {
   AppBar,
@@ -12,9 +14,11 @@ import {
   ListItemButton,
   ListItemText,
   Stack,
+  Tooltip,
   Toolbar,
   Typography,
 } from "@mui/material";
+import type { PaletteMode } from "@mui/material";
 import type { PageKey } from "../App";
 
 type NavItem = {
@@ -32,12 +36,16 @@ type HeaderProps = {
   currentPage: PageKey;
   onNavigate: (page: PageKey) => void;
   onRequestQuote: () => void;
+  themeMode: PaletteMode;
+  onToggleTheme: () => void;
 };
 
 export const Header = ({
   currentPage,
   onNavigate,
   onRequestQuote,
+  themeMode,
+  onToggleTheme,
 }: HeaderProps): JSX.Element => {
   const [open, setOpen] = useState(false);
 
@@ -57,6 +65,11 @@ export const Header = ({
   const handleBrandClick = (): void => {
     handleNavigateClick("home");
   };
+
+  const themeIcon =
+    themeMode === "light" ? <DarkModeRoundedIcon /> : <LightModeRoundedIcon />;
+  const themeLabel =
+    themeMode === "light" ? "Switch to dark mode" : "Switch to light mode";
 
   return (
     <AppBar
@@ -122,6 +135,15 @@ export const Header = ({
                 {item.label}
               </Button>
             ))}
+            <Tooltip title={themeLabel} arrow>
+              <IconButton
+                onClick={onToggleTheme}
+                color="inherit"
+                aria-label={themeLabel}
+              >
+                {themeIcon}
+              </IconButton>
+            </Tooltip>
             <Button
               onClick={onRequestQuote}
               variant="outlined"
@@ -132,13 +154,29 @@ export const Header = ({
             </Button>
           </Stack>
 
-          <IconButton
-            onClick={handleToggle}
-            sx={{ display: { xs: "inline-flex", md: "none" }, ml: 0.5, flexShrink: 0 }}
-            aria-label="Open navigation"
+          <Stack
+            direction="row"
+            spacing={0.25}
+            sx={{ display: { xs: "flex", md: "none" }, alignItems: "center" }}
           >
-            <MenuRoundedIcon />
-          </IconButton>
+            <Tooltip title={themeLabel} arrow>
+              <IconButton
+                onClick={onToggleTheme}
+                color="inherit"
+                aria-label={themeLabel}
+                sx={{ flexShrink: 0 }}
+              >
+                {themeIcon}
+              </IconButton>
+            </Tooltip>
+            <IconButton
+              onClick={handleToggle}
+              sx={{ ml: 0.25, flexShrink: 0 }}
+              aria-label="Open navigation"
+            >
+              <MenuRoundedIcon />
+            </IconButton>
+          </Stack>
         </Toolbar>
       </Container>
 

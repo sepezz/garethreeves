@@ -1,12 +1,42 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
-import { Box, Fab, Link, Tooltip, Typography, Zoom } from "@mui/material";
+import {
+  Box,
+  CssBaseline,
+  Fab,
+  GlobalStyles,
+  Link,
+  ThemeProvider,
+  Tooltip,
+  Typography,
+  Zoom,
+} from "@mui/material";
+import type { PaletteMode } from "@mui/material";
 import { Header } from "./components/Header";
 import { AboutPage } from "./pages/AboutPage";
 import { ContactPage } from "./pages/ContactPage";
 import { HomePage } from "./pages/HomePage";
+import { getTheme } from "./theme";
 
 export type PageKey = "home" | "about" | "contact";
+
+const THEME_MODE_KEY = "theme-mode";
+
+const getInitialThemeMode = (): PaletteMode => {
+  if (typeof window === "undefined") {
+    return "light";
+  }
+
+  const storedMode = window.localStorage.getItem(THEME_MODE_KEY);
+
+  if (storedMode === "light" || storedMode === "dark") {
+    return storedMode;
+  }
+
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+};
 
 const ScrollTopButton = (): JSX.Element => {
   const [visible, setVisible] = useState(false);
@@ -51,6 +81,35 @@ const ScrollTopButton = (): JSX.Element => {
 const App = (): JSX.Element => {
   const [currentPage, setCurrentPage] = useState<PageKey>("home");
   const [scrollToContact, setScrollToContact] = useState(false);
+  const [themeMode, setThemeMode] = useState<PaletteMode>(getInitialThemeMode);
+  const theme = useMemo(() => getTheme(themeMode), [themeMode]);
+
+  useEffect(() => {
+    window.localStorage.setItem(THEME_MODE_KEY, themeMode);
+  }, [themeMode]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleChange = (event: MediaQueryListEvent): void => {
+      const storedMode = window.localStorage.getItem(THEME_MODE_KEY);
+
+      if (storedMode === "light" || storedMode === "dark") {
+        return;
+      }
+
+      setThemeMode(event.matches ? "dark" : "light");
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange);
+    };
+  }, []);
 
   useEffect(() => {
     if (currentPage !== "home" || !scrollToContact) {
@@ -96,6 +155,10 @@ const App = (): JSX.Element => {
     element?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  const handleToggleTheme = (): void => {
+    setThemeMode((current) => (current === "light" ? "dark" : "light"));
+  };
+
   const renderPage = (): JSX.Element => {
     switch (currentPage) {
       case "about":
@@ -114,44 +177,67 @@ const App = (): JSX.Element => {
   };
 
   return (
-    <Box sx={{ minHeight: "100vh", overflowX: "clip" }}>
-      <Header
-        currentPage={currentPage}
-        onNavigate={handleNavigate}
-        onRequestQuote={handleRequestQuote}
-      />
-      {renderPage()}
-      <Box
-        component="footer"
-        sx={{
-          mt: { xs: 8, md: 10 },
-          px: { xs: 2.5, md: 3 },
-          pb: { xs: 3, md: 4 },
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <GlobalStyles
+        styles={{
+          html: {
+            scrollBehavior: "smooth",
+          },
+          body: {
+            backgroundColor: theme.palette.background.default,
+          },
+          a: {
+            color: "inherit",
+            textDecoration: "none",
+          },
+          "::selection": {
+            backgroundColor:
+              themeMode === "light" ? "#d9ddd7" : "rgba(158, 173, 164, 0.28)",
+          },
         }}
-      >
-        <Typography
-          variant="caption"
-          color="text.secondary"
+      />
+      <Box sx={{ minHeight: "100vh", overflowX: "clip" }}>
+        <Header
+          currentPage={currentPage}
+          onNavigate={handleNavigate}
+          onRequestQuote={handleRequestQuote}
+          themeMode={themeMode}
+          onToggleTheme={handleToggleTheme}
+        />
+        {renderPage()}
+        <Box
+          component="footer"
           sx={{
-            display: "block",
-            textAlign: "center",
-            opacity: 0.76,
+            mt: { xs: 8, md: 10 },
+            px: { xs: 2.5, md: 3 },
+            pb: { xs: 3, md: 4 },
           }}
         >
-          Site by{" "}
-          <Tooltip title="Email richard@hanney.xyz" arrow>
-            <Link
-              href="mailto:richard@hanney.xyz"
-              color="inherit"
-              underline="hover"
-            >
-              Richard Hanney
-            </Link>
-          </Tooltip>
-        </Typography>
+          <Typography
+            variant="caption"
+            color="text.secondary"
+            sx={{
+              display: "block",
+              textAlign: "center",
+              opacity: 0.76,
+            }}
+          >
+            Site by{" "}
+            <Tooltip title="Email richard@hanney.xyz" arrow>
+              <Link
+                href="mailto:richard@hanney.xyz"
+                color="inherit"
+                underline="hover"
+              >
+                Richard Hanney
+              </Link>
+            </Tooltip>
+          </Typography>
+        </Box>
+        <ScrollTopButton />
       </Box>
-      <ScrollTopButton />
-    </Box>
+    </ThemeProvider>
   );
 };
 

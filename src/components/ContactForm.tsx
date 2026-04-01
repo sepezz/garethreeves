@@ -134,14 +134,17 @@ export const ContactForm = (): JSX.Element => {
         {submitted ? (
           <Alert
             severity="success"
-            sx={{
+            sx={(theme) => ({
               borderRadius: 3,
-              backgroundColor: "rgba(92, 104, 98, 0.08)",
+              backgroundColor:
+                theme.palette.mode === "light"
+                  ? "rgba(92, 104, 98, 0.08)"
+                  : "rgba(147, 163, 154, 0.12)",
               color: "text.primary",
               "& .MuiAlert-icon": {
                 color: "primary.main",
               },
-            }}
+            })}
           >
             Thanks - your enquiry has been sent successfully. Gareth will get
             back to you soon.
@@ -151,14 +154,17 @@ export const ContactForm = (): JSX.Element => {
         {errorMessage ? (
           <Alert
             severity="error"
-            sx={{
+            sx={(theme) => ({
               borderRadius: 3,
-              backgroundColor: "rgba(138, 131, 118, 0.1)",
+              backgroundColor:
+                theme.palette.mode === "light"
+                  ? "rgba(138, 131, 118, 0.1)"
+                  : "rgba(167, 159, 147, 0.12)",
               color: "text.primary",
               "& .MuiAlert-icon": {
                 color: "secondary.main",
               },
-            }}
+            })}
           >
             {errorMessage}
           </Alert>

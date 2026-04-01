@@ -61,12 +61,14 @@ export const HomePage = ({
   return (
     <Box>
       <Box
-        sx={{
+        sx={(theme) => ({
           borderBottom: "1px solid",
           borderColor: "divider",
           background:
-            "linear-gradient(180deg, rgba(255,253,249,1) 0%, rgba(247,245,241,1) 72%)",
-        }}
+            theme.palette.mode === "light"
+              ? "linear-gradient(180deg, rgba(255,253,249,1) 0%, rgba(247,245,241,1) 72%)"
+              : "linear-gradient(180deg, rgba(29,35,32,1) 0%, rgba(21,25,23,1) 74%)",
+        })}
       >
         <Container maxWidth="lg">
           <Grid
@@ -136,15 +138,18 @@ export const HomePage = ({
             <Grid item xs={12} md={5}>
               <Paper
                 elevation={0}
-                sx={{
+                sx={(theme) => ({
                   p: { xs: 2.25, sm: 2.75, md: 3.5 },
                   border: "1px solid",
                   borderColor: "divider",
-                  backgroundColor: "background.paper",
+                  backgroundColor:
+                    theme.palette.mode === "light"
+                      ? "background.paper"
+                      : "rgba(34, 41, 38, 0.9)",
                   borderRadius: { xs: 2.25, sm: 3, md: 3 },
                   maxWidth: { xs: 420, md: 360 },
                   mx: { xs: "auto", md: "auto" },
-                }}
+                })}
               >
                 <Stack spacing={{ xs: 2, md: 2.75 }}>
                   <Typography variant="overline" sx={{ color: "text.secondary" }}>
