@@ -48,6 +48,14 @@ export const ContactForm = (): JSX.Element => {
       }));
     };
 
+  const encode = (data: Record<string, string>): string => {
+    return Object.keys(data)
+      .map(
+        (key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]),
+      )
+      .join("&");
+  };
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
     setIsSubmitting(true);
@@ -61,14 +69,14 @@ export const ContactForm = (): JSX.Element => {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: new URLSearchParams({
+        body: encode({
           "form-name": "contact",
           name,
           email,
           wordCount,
           deadline,
           message,
-        }).toString(),
+        }),
       });
 
       if (!response.ok) {
