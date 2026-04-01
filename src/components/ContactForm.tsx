@@ -48,15 +48,6 @@ export const ContactForm = (): JSX.Element => {
       }));
     };
 
-  const encodeFormData = (data: Record<string, string>): string => {
-    return Object.entries(data)
-      .map(
-        ([key, value]) =>
-          `${encodeURIComponent(key)}=${encodeURIComponent(value)}`,
-      )
-      .join("&");
-  };
-
   const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
     setIsSubmitting(true);
@@ -64,16 +55,20 @@ export const ContactForm = (): JSX.Element => {
     setErrorMessage(null);
 
     try {
+      const { name, email, wordCount, deadline, message } = formState;
       const response = await fetch("/", {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: encodeFormData({
+        body: new URLSearchParams({
           "form-name": "contact",
-          "bot-field": "",
-          ...formState,
-        }),
+          name,
+          email,
+          wordCount,
+          deadline,
+          message,
+        }).toString(),
       });
 
       if (!response.ok) {
