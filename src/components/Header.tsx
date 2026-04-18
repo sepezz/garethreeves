@@ -28,6 +28,7 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   { label: "Home", page: "home" },
+  { label: "Blog", page: "blog" },
   { label: "About", page: "about" },
   { label: "Contact", page: "contact" },
 ];

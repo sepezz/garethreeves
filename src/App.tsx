@@ -14,11 +14,12 @@ import {
 import type { PaletteMode } from "@mui/material";
 import { Header } from "./components/Header";
 import { AboutPage } from "./pages/AboutPage";
+import { BlogPage } from "./pages/BlogPage";
 import { ContactPage } from "./pages/ContactPage";
 import { HomePage } from "./pages/HomePage";
 import { getTheme } from "./theme";
 
-export type PageKey = "home" | "about" | "contact";
+export type PageKey = "home" | "blog" | "about" | "contact";
 
 const THEME_MODE_KEY = "theme-mode";
 
@@ -161,6 +162,8 @@ const App = (): JSX.Element => {
 
   const renderPage = (): JSX.Element => {
     switch (currentPage) {
+      case "blog":
+        return <BlogPage />;
       case "about":
         return <AboutPage />;
       case "contact":

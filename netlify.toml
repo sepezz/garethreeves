@@ -1,0 +1,13 @@
+[build]
+  publish = "dist"
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/substack-feed"
+  to = "/.netlify/functions/substack-feed"
+  status = 200
+
+[[redirects]]
+  from = "/api/substack-archive"
+  to = "/.netlify/functions/substack-archive"
+  status = 200
