@@ -1,5 +1,8 @@
+import DescriptionRoundedIcon from "@mui/icons-material/DescriptionRounded";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
-import { Box, Container, Paper, Stack, Typography } from "@mui/material";
+import XIcon from "@mui/icons-material/X";
+import { Box, Button, Container, Paper, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import englandMap from "../assets/england_location_map.svg";
 
@@ -48,19 +51,78 @@ export const AboutPage = (): JSX.Element => {
                 Careful editorial work for serious writing.
               </Typography>
               <Typography variant="body1" color="text.secondary">
-                Based in Cambridge, Gareth Reeves offers freelance academic
-                editing and proofreading for scholars, researchers, and
-                professionals who need clear, refined, submission-ready prose.
+                I am based in Cambridge and offer freelance academic editing
+                and proofreading for scholars, researchers, and professionals
+                who need clear, refined, submission-ready prose.
               </Typography>
               <Typography variant="body1" color="text.secondary">
-                The approach is measured and collaborative: improving accuracy,
+                My approach is measured and collaborative: I improve accuracy,
                 readability, and consistency while respecting the author’s
                 voice, argument, and disciplinary conventions.
               </Typography>
               <Typography variant="body1" color="text.secondary">
-                Work spans humanities research, journal publishing, and
+                My work spans humanities research, journal publishing, and
                 specialist material across technical and regulated fields.
               </Typography>
+
+              <Stack spacing={1.25} sx={{ pt: 0.5 }}>
+                <Typography
+                  variant="overline"
+                  sx={{ color: "text.secondary", letterSpacing: "0.12em" }}
+                >
+                  Links
+                </Typography>
+                <Stack
+                  direction={{ xs: "column", sm: "row" }}
+                  spacing={1.25}
+                  sx={{ alignItems: { xs: "stretch", sm: "flex-start" } }}
+                >
+                  <Button
+                    component="a"
+                    href="https://www.linkedin.com/in/gareth-reeves-phd-63415128/"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="LinkedIn profile"
+                    variant="outlined"
+                    color="primary"
+                    sx={{
+                      width: { xs: "100%", sm: "auto" },
+                      minWidth: { xs: "100%", sm: 56 },
+                      px: { xs: 1.5, sm: 0.75 },
+                    }}
+                  >
+                    <LinkedInIcon />
+                  </Button>
+                  <Button
+                    component="a"
+                    href="https://x.com/GarethReeves4"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="X profile"
+                    variant="outlined"
+                    color="primary"
+                    sx={{
+                      width: { xs: "100%", sm: "auto" },
+                      minWidth: { xs: "100%", sm: 56 },
+                      px: { xs: 1.5, sm: 0.75 },
+                    }}
+                  >
+                    <XIcon />
+                  </Button>
+                  <Button
+                    component="a"
+                    href="https://etheses.durham.ac.uk/id/eprint/16177/"
+                    target="_blank"
+                    rel="noreferrer"
+                    variant="outlined"
+                    color="primary"
+                    startIcon={<DescriptionRoundedIcon />}
+                    sx={{ width: { xs: "100%", sm: "auto" } }}
+                  >
+                    Thesis
+                  </Button>
+                </Stack>
+              </Stack>
             </Stack>
           </Paper>
 
